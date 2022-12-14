@@ -72,7 +72,7 @@
                                 <th class="sorting" tabindex="0" aria-controls="example1"
                                     rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending"
                                     style="width: 197.25px;">
-                                    Image
+                                    Number
                                 </th>
 
                                 <th class="sorting" tabindex="0" aria-controls="example1"
@@ -155,7 +155,7 @@
 
                                 <td>
 
-                                    <img :src="`${product.image}`" alt="" style="width: 80%; height: 40px;">
+                                    <img :src="`${product.number}`" alt="" style="width: 80%; height: 40px;">
                                 </td>
 
                                 <td>{{product.current_balance}}</td>
