@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
+
+
+
     protected $guarded = [];
 
 
@@ -22,6 +25,17 @@ class Task extends Model
 
 
 
+    public function scopeWithCategory($query)
+    {
+        return $query->with('category')->where('isAvailable', 1);
 
 
-}
+    }
+
+
+
+
+
+
+
+    }

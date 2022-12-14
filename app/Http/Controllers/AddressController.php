@@ -39,6 +39,13 @@ class AddressController extends Controller
     public function store(Request $request)
     {
 
+
+
+
+
+
+
+
          $image =  $request->image;
 
         $name =  $request->name;
@@ -47,19 +54,27 @@ class AddressController extends Controller
 
 
 
-        if($image) {
+
+
+        if( $image) {
 
 
 
-            $folderPath = "uploads/transaction_images/";
+          if(strlen($image)>40) {
 
-            $base64Image = explode(";base64,", $request->image);
-            $explodeImage = explode("image/", $base64Image[0]);
-            $imageType = $explodeImage[1];
-            $image_base64 = base64_decode($base64Image[1]);
-            $file = $folderPath . uniqid() . '.'.$imageType;
 
-            file_put_contents($file, $image_base64);
+              $folderPath = "uploads/transaction_images/";
+
+              $base64Image = explode(";base64,", $request->image);
+              $explodeImage = explode("image/", $base64Image[0]);
+              $imageType = $explodeImage[1];
+              $image_base64 = base64_decode($base64Image[1]);
+              $file = $folderPath . uniqid() . '.' . $imageType;
+
+              file_put_contents($file, $image_base64);
+
+
+          }
 
 
 
@@ -76,6 +91,10 @@ class AddressController extends Controller
 
 
         }
+
+
+
+
 
 
 

@@ -34,6 +34,8 @@ class CreateTasksTable extends Migration
 
             $table->unsignedBigInteger('category_id');
 
+            $table->unsignedInteger('isAvailable')->default(1);
+
 
 
 

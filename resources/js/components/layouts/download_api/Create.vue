@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>
+        <h4 style="margin-left: 30px;">
             Update download api links
         </h4>
         <div class="container">
@@ -19,11 +19,11 @@
 
 
 
-                    <div class="col-sm-6">
-                        <label for="price">ISO Link</label>
+                    <!--<div class="col-sm-6">-->
+                        <!--<label for="price">ISO Link</label>-->
 
-                        <input type="text"  v-model="form.iso_link" class="form-control" id="price">
-                    </div>
+                        <!--<input type="text"  v-model="form.iso_link" class="form-control" id="price">-->
+                    <!--</div>-->
 
 
 
@@ -85,7 +85,7 @@
                 form: {
                   text: '',
                   android_link: '',
-                  iso_link: '',
+                  // iso_link: '',
                 },
             };
         },
@@ -129,9 +129,15 @@
                 axios({
                     method: 'post',
                     url: '/api/download-api',
-                    data: this.form,
+                    data: {
+                        android_link: document.getElementById("name").value,
+                        text: document.getElementById("text").value,
+
+                    }
                 }).
                     then(res => {
+
+
 
 
 

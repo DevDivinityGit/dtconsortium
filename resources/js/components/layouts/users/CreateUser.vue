@@ -97,6 +97,12 @@
                 then(res => {
 
 
+                    if(res.data === 401) {
+                        alert("number already in use try another one");
+                        return;
+                    }
+
+
 
 
 

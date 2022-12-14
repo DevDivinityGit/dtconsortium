@@ -65,21 +65,29 @@
 
         methods: {
             hitLogout() {
-                const token = localStorage.getItem('token');
+                localStorage.clear();
 
-                axios({
-                    method: 'post',
-                    url: '/api/logout',
-                    headers: {
-                        authorization: "Bearer "+token,
-                    }
-                }).
-                    then(res => {
-                        if(res.data.code === 200) {
-                            localStorage.clear();
-                            this.$router.push({name: 'login'});
-                    }
-                });
+
+                // const token = localStorage.getItem('token');
+
+                // axios({
+                //     method: 'post',
+                //     url: '/api/logout',
+                //     headers: {
+                //         authorization: "Bearer "+token,
+                //     }
+                // }).
+                //     then(res => {
+                //         if(res.data.code === 200) {
+                //             localStorage.clear();
+                //             this.$router.push({name: 'login'});
+                //     }
+                // });
+
+
+
+                this.$router.push({name: 'login'});
+
 
 
 

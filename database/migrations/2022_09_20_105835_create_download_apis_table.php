@@ -18,7 +18,7 @@ class CreateDownloadApisTable extends Migration
 
             $table->text('text');
             $table->string('android_link');
-            $table->string('iso_link');
+//            $table->string('iso_link');
 
 
 

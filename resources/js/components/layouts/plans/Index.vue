@@ -38,19 +38,19 @@
 
                     <div class="row justify-content-end"><div class="col-sm-12">
 
-                        <span>Show Entries: </span>
-                        <select name="entries" @change="changeLimit($event)" id="" style="width: 20%;">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
+                        <!--<span>Show Entries: </span>-->
+                        <!--<select name="entries" @change="changeLimit($event)" id="" style="width: 20%;">-->
+                            <!--<option value="10">10</option>-->
+                            <!--<option value="20">20</option>-->
+                            <!--<option value="50">50</option>-->
+                            <!--<option value="100">100</option>-->
+                        <!--</select>-->
 
-                        <div style="display: inline; float: right;">
-                            <span>Search: </span>
-                            <input type="text" @keyup="findProduct($event)">
-                        </div>
-                        <span style="clear: both;"></span>
+                        <!--<div style="display: inline; float: right;">-->
+                            <!--<span>Search: </span>-->
+                            <!--<input type="text" @keyup="findProduct($event)">-->
+                        <!--</div>-->
+                        <!--<span style="clear: both;"></span>-->
 
 
 
@@ -82,6 +82,18 @@
                                     style="width: 197.25px;">
                                     task price
                                 </th>
+
+
+
+                                <th class="sorting" tabindex="0" aria-controls="example1"
+                                    rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending"
+                                    style="width: 197.25px;">
+                                    Users
+                                </th>
+
+
+
+
 
 
 
@@ -158,13 +170,29 @@
 
                                 <td>{{product.price}}</td>
                                 <td>{{product.task_price}}</td>
+                                <td>{{product.user}}</td>
                                 <td>
                                     <!--<router-link :to="{name: 'product.edit', params: {slug: product.slug}}"  style="font-size: 65%;" class="btn btn-sm btn-warning">Edit</router-link>-->
-                                    <button @click="deleteUser(product.id)" class="btn btn-sm btn-danger" style="font-size: 65%;" >Delete</button>
+                                    <button v-if="product.id != 1" @click="deleteUser(product.id)" class="btn btn-sm btn-danger" style="font-size: 65%;" >Delete</button>
                                     <button @click="editPlan(product.id)" class="btn btn-sm btn-info" style="font-size: 65%;" >Edit</button>
                                 </td>
 
                             </tr>
+
+
+
+
+
+                            <tr role="row"   v-if="_users.length === 0" class="even">
+
+                                <td  >
+                                    <strong>No records found</strong>
+                                </td>
+
+                            </tr>
+
+
+
 
 
 
@@ -225,6 +253,12 @@
 
             }).
             then(res => {
+
+
+
+
+
+
                 this.users = res.data;
 
 
@@ -242,6 +276,7 @@
 
                 }).
                 then(res => {
+
                     if(res.data !== 0) {
                         this.users = res.data;
                     }

@@ -40,19 +40,19 @@
 
                         <span>Show Entries: </span>
                         <select name="entries" @change="changeLimit($event)" id=""  style="width: 10%;">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
+                            <option value="20">10</option>
+                            <option value="40">20</option>
+                            <option value="100">50</option>
+                            <option value="200">100</option>
                         </select>
 
 
 
                         <span> </span>
                         <select name="entries" @change="findTasks($event)" id=""  style="width: 20%; display: inline; float: right;">
-                            <option value="">All tasks</option>
-                            <option value="Accepted">Accepted </option>
-                            <option value="Rejected">Rejected </option>
+                            <option value="">All Transactions</option>
+                            <option value="approved">Approved </option>
+                            <option value="rejected">Rejected </option>
                             <option value="inprogress">In progress </option>
                             <!--<option value="not taken">Not Taken </option>-->
 
@@ -62,11 +62,11 @@
 
 
                         <span> </span>
-                        <select name="entries" @change="findProduct($event)" id=""  style="width: 20%; display: inline; float: right;">
-                            <option value="">All categories</option>
-                            <option v-for="category in _categories" :value="category.id"  :key="category.id">{{category.name}}</option>
+                        <!--<select name="entries" @change="findProduct($event)" id=""  style="width: 20%; display: inline; float: right;">-->
+                            <!--<option value="">All categories</option>-->
+                            <!--<option v-for="category in _categories" :value="category.id"  :key="category.id">{{category.name}}</option>-->
 
-                        </select>
+                        <!--</select>-->
 
 
 
@@ -131,11 +131,24 @@
 
 
 
+
+
+
                                 <th class="sorting" tabindex="0" aria-controls="example1"
                                     rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending"
-                                    style="width: 20px;">
+                                    style="width: 10px;">
                                     status
                                 </th>
+
+
+
+                                <th class="sorting" tabindex="0" aria-controls="example1"
+                                    rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending"
+                                    style="width: 200px;">
+                                    Time
+                                </th>
+
+
 
 
 
@@ -161,10 +174,24 @@
                             </thead>
                             <tbody>
 
-                            <tr role="row" class="even" v-for="product in theLaravelData.data" :key="product.id">
+                            <tr v-if="product.purpose_id != 1" role="row" class="even" v-for="product in theLaravelData.data" :key="product.id">
                                 <!--<td class="sorting_1">{{product.name | shortName}}</td>-->
 
-                             <td>
+
+
+
+
+                                <span style="display: none;">
+
+                                                {{token = false}}
+
+                                            </span>
+
+
+
+
+
+                                <td>
                                  {{product.user.name}}
                              </td>
 
@@ -179,12 +206,19 @@
 
 
                                 <td>
-                                    <img :src="product.image" alt="" style="width: 50px; height: 30px;">
+                                    <img @click="hitImg()" class="the-img" :src="product.image" alt="" style="cursor: pointer; width: 50px; height: 30px;">
                                 </td>
 
 
                                 <td>
                                     {{product.status}}
+                                </td>
+
+
+
+
+                                <td>
+                                    {{product.time}}
                                 </td>
 
 
@@ -204,7 +238,7 @@
 
                                     <!--<router-link :to="{name: 'product.edit', params: {slug: product.slug}}"  style="font-size: 65%;" clas---s="btn btn-sm btn-warning">Edit</router-link>-->
 
-                                    <button    v-if="product.status === 'inprogress'"  @click="hitAcceptance(product.id, theLaravelData.meta.current_page)"  class="btn btn-sm btn-success" style="font-size: 65%;" >Approve</button>
+                                    <button    v-if="product.status === 'inprogress'" id="accept-btn" @click="hitAcceptance(product.id, theLaravelData.meta.current_page)"  class="btn btn-sm btn-success" style="font-size: 65%;" >Approve</button>
                                     <button     v-if="product.status === 'inprogress'"  @click="hitRejection(product.id, theLaravelData.meta.current_page)" class="btn btn-sm btn-danger" style="font-size: 65%;" >Rejection</button>
                                     <!--&lt;!&ndash;<button  v-if="product.status === 'Accepted'" @click="hitRestore(product.id)" class="btn btn-sm btn-info" style="font-size: 65%;" >Restore</button>&ndash;&gt;-->
                                     <!--<button  v-if="product.status === 'Rejected'" @click="hitRestore(product.id, product.user.id)" class="btn btn-sm btn-info" style="font-size: 65%;" >Restore</button>-->
@@ -212,6 +246,33 @@
 
 
                             </tr>
+
+
+
+
+
+
+
+
+
+                            <tr v-if="token">
+                                <td>
+                                    No record found
+                                </td>
+
+
+
+                            </tr>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -253,6 +314,7 @@
     export default {
         data() {
             return {
+                token: true,
                 users: [],
                 categories: [
                     {name: 'youtube', id: 1},
@@ -262,7 +324,7 @@
 
 
                 laravelData: {},
-                limit: 10,
+                limit: 20,
                 finder: '',
                 tasksStatus: '',
 
@@ -349,6 +411,52 @@
 
         methods: {
 
+
+            hitImg() {
+                $('.the-img').addClass('img-enlargable').click(function(){
+                    var src = $(this).attr('src');
+                    $('<div class="theD">').css({
+                        background: 'RGBA(0,0,0,.5) url('+src+') no-repeat center',
+                        backgroundSize: 'contain',
+                        width:'100%', height:'100%',
+                        position:'fixed',
+                        zIndex:'99',
+                        top:'0', left:'0',
+                        cursor: 'zoom-out'
+                    }).click(function(){
+
+
+                        $(this).remove();
+
+                        $(".theD").remove();
+
+
+
+
+
+
+
+
+                    }).appendTo('body');
+                });
+
+
+
+
+
+
+
+
+            },
+
+
+
+
+
+
+
+
+
             findTasks(ev) {
 
 
@@ -391,6 +499,7 @@
                 });
             },
             hitAcceptance(id, page) {
+
 
 
 

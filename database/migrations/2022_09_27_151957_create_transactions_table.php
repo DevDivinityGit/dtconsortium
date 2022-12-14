@@ -17,10 +17,15 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->string('transaction_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedInteger('amount');
+            $table->unsignedInteger('purpose_id');
+            $table->unsignedInteger('is_deleted')->default(0);
+//            $table->unsignedInteger('amount');
+
+            $table->decimal('amount');
+
             $table->string('image');
             $table->string('status');
-            $table->string('usdt_address');
+            $table->string('usdt_address')->nullable();
             $table->timestamps();
         });
     }

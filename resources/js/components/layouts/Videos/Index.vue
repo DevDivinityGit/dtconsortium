@@ -62,8 +62,17 @@
                             <thead>
                             <tr role="row">
                                 <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161.203px;">
+                                    Video Name
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161.203px;">
                                     Video URL
                                 </th>
+
+
+
+
+
+
                                 <!--<th class="sorting" tabindex="0" aria-controls="example1"-->
                                     <!--rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"-->
                                     <!--style="width: 212.859px;">-->
@@ -140,6 +149,7 @@
                                 <!--<td class="sorting_1">{{product.name | shortName}}</td>-->
 
                                 <td>{{product.name}}</td>
+                                <td>{{product.url}}</td>
                                 <!--<td>{{product.iso_link}}</td>-->
 
                                 <!--<td>-->

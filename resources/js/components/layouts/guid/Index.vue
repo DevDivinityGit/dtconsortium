@@ -6,7 +6,7 @@
            <div class="col-sm-9">
 
 
-               <label for="editor" style="margin-top: 10px;">Guid API: </label>
+               <label for="editor" style="margin-top: 10px;">Guide API: </label>
                <br>
                <div class="form-group">
                    <div  id="editor"  class="form-control"></div>

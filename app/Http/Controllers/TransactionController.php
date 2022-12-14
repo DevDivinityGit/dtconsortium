@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Transaction;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\TransactionCollection;
 
@@ -32,27 +33,163 @@ class TransactionController extends Controller
 
 
 
-    public function approve($id)
+
+
+
+    public function approveWithdrawal($id)
     {
+
+
+
+
+        $r = request();
+
+        $admin = User::first();
+
+
+
         $tr = Transaction::find($id);
 
-        $tr->update([
-            'status' => 'approved',
-        ]);
+
+
+
+
+
+           if($tr->status == 'inprogress') {
+//               return $tr;
+
+
+               $user = User::find($r->user_id);
+
+
+               if ($user->current_balance >= $tr->amount) {
+
+                   $user->update([
+
+                       'current_balance' => $user->current_balance - $tr->amount,
+
+
+                   ]);
+
+
+                   $tr->update([
+                       'status' => 'approved',
+                   ]);
+
+
+                   $admin->update([
+                       'current_balance' => $admin->current_balance - $tr->amount,
+
+                   ]);
+
+
+                   return 20;
+
+
+               }
+
+
+           }
+
+
+
+           return 500;
 
 
 
 
 
 
-        $tr->user()->update(['current_balance' => $tr->user->current_balance += $tr->amount]);
 
 
 
 
 
 
-        return 200;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function approve($id)
+    {
+
+
+        $r = request();
+
+
+
+        $tr = Transaction::find($id);
+        if($tr->status === 'inprogress') {
+
+
+            if ($r->user_id) {
+                $user = User::find($r->user_id);
+
+                if ((int)$tr->purpose_id === 1) {
+
+                    if ($user->current_balance >= $tr->amount) {
+
+                        $user->update([
+
+                            'current_balance' => $user->current_balance - $tr->amount,
+
+
+                        ]);
+
+
+                    }
+
+
+                    $tr->update([
+                        'status' => 'approved',
+                    ]);
+
+
+                    return 200;
+
+
+                }
+
+
+            }
+
+
+            $tr->update([
+                'status' => 'approved',
+            ]);
+
+
+            User::first()->update([
+                'current_balance' => User::first()->current_balance += $tr->amount,
+            ]);
+
+
+            $tr->user()->update(['current_balance' => $tr->user->current_balance += $tr->amount]);
+
+
+            return 200;
+
+
+        }
+
+
+
+
+
+
     }
     /**
      * Display a listing of the resource.
@@ -61,7 +198,34 @@ class TransactionController extends Controller
      */
     public function index()
     {
-         return new TransactionCollection(Transaction::orderBy('id', 'desc')->paginate(5));
+        $r = request();
+        $status = $r->tasks_status;
+
+
+
+        if($status) {
+
+
+            return  new TransactionCollection(Transaction::where('status', $status)
+                ->where('is_deleted', 0)
+                ->orderBy('id', 'desc')->paginate($r->limit));
+
+
+
+
+
+
+        }
+
+
+        return new TransactionCollection(Transaction::where('is_deleted', 0)
+        ->orderBy('id', 'desc')->paginate($r->limit));
+
+
+
+
+
+
     }
 
     /**

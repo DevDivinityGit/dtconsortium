@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>
+        <h4 style="margin-left: 30px;">
             update Video api links
         </h4>
         <div class="container">
@@ -8,10 +8,23 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <label for="name">URLk</label>
-
+                        <label for="name">Name</label>
 
                         <input type="text" v-model="form.name" id="name"  class="form-control">
+
+
+
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="url">URL</label>
+
+
+                        <input type="text" v-model="form.url" id="url"  class="form-control">
                     </div>
                     <!--<div class="col-sm-6">-->
                     <!--<input type="text" placeholder="status" class="form-control">-->
@@ -90,6 +103,7 @@
             return {
                 form: {
                     name: '',
+                    url: '',
                 },
             };
         },
@@ -135,7 +149,7 @@
                 }).
                 then(res => {
 
-                   
+
 
 
                     if(res.data === 200) {

@@ -29,7 +29,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 style="display: inline" class="card-title">Data Table With Full Features</h3>
-                <router-link :to="{name: 'create.user'}" class="btn btn-info" style="float: right">Add new User</router-link>
+                <!--<router-link :to="{name: 'create.user'}" class="btn btn-info" style="float: right">Add new User</router-link>-->
                 <span style="clear: both;"></span>
             </div>
             <!-- /.card-header -->
@@ -39,7 +39,7 @@
                     <div class="row justify-content-end"><div class="col-sm-12">
 
                         <span>Show Entries: </span>
-                        <select name="entries" @change="changeLimit($event)" id="" style="width: 20%;">
+                        <select name="entries" @change="changeLimit($event)" id="" style="width: 20%; border: 1px solid black;">
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="50">50</option>
@@ -74,9 +74,20 @@
                                     style="width: 197.25px;">
                                     Image
                                 </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1"
+                                    rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending"
+                                    style="width: 100px;">
+                                    Current balance
+                                </th>
+
+
+
+
+
                                 <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
                                      aria-label="CSS grade: activate to sort column ascending"
-                                     style="width: 94.3906px;">Actions</th></tr>
+                                     style="width: 150.3906px;">Actions</th></tr>
                             </thead>
                             <tbody>
 
@@ -136,7 +147,7 @@
 
 
 
-                            <tr role="row" class="even" v-for="product in _users" :key="product.id">
+                            <tr role="row" class="even" v-for="product in theLaravelData.data" :key="product.id">
                                 <!--<td class="sorting_1">{{product.name | shortName}}</td>-->
 
                                 <td>{{product.name}}</td>
@@ -146,10 +157,28 @@
 
                                     <img :src="`${product.image}`" alt="" style="width: 80%; height: 40px;">
                                 </td>
+
+                                <td>{{product.current_balance}}</td>
+
+
+
                                 <td>
                                     <!--<router-link :to="{name: 'product.edit', params: {slug: product.slug}}"  style="font-size: 65%;" class="btn btn-sm btn-warning">Edit</router-link>-->
-                                    <button @click="deleteUser(product.id)" class="btn btn-sm btn-danger" style="font-size: 65%;" >Delete</button>
+                                    <button @click="deleteUser(product.id, theLaravelData.current_page)" class="btn btn-sm btn-danger" style="font-size: 65%;" >Delete</button>
                                     <button @click="editUser(product.id)" class="btn btn-sm btn-info" style="font-size: 65%;" >Edit</button>
+                                    <button @click="viewUser(product.id)" class="btn btn-sm btn-primary" style="font-size: 65%;" >View</button>
+                                </td>
+
+                            </tr>
+
+
+
+
+
+                            <tr role="row"   v-if="theLaravelData.data.length === 0" class="even">
+
+                                <td  >
+                                    <strong>No records found</strong>
                                 </td>
 
                             </tr>
@@ -168,15 +197,15 @@
                             <!--</div>-->
                         </div>
                         <div class="col-sm-12 col-md-7">
-                            <!--<div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">-->
-                                <!--<div style="float: right;">-->
-                                    <!--<pagination :data="laravelData" @pagination-change-page="getResults">-->
-                                    <!--</pagination>-->
+                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                                <div style="float: right;">
+                                    <pagination :data="laravelData" @pagination-change-page="getResults">
+                                    </pagination>
 
-                                <!--</div>-->
-                                <!--<span style="clear: both;"></span>-->
+                                </div>
+                                <span style="clear: both;"></span>
 
-                            <!--</div>-->
+                            </div>
                         </div>
                     </div>
 
@@ -195,11 +224,19 @@
         data() {
             return {
               users: [],
+                        laravelData: {},
+                        limit: 10,
+                        finder: '',
+
+
             };
         },
 
-
         computed: {
+            theLaravelData() {
+             return this.laravelData;
+
+            },
           _users() {
             return this.users;
           },
@@ -207,26 +244,147 @@
 
         created() {
 
-            axios({
-                method: 'get',
-                url: '/api/users',
-                headers: {
-                  'authorization': 'Bearer '+localStorage.getItem('token'),
-                },
-
-            }).
-                then(res => {
-               this.users = res.data;
-
-
-            });
+            // axios({
+            //     method: 'get',
+            //     url: '/api/users',
+            //     headers: {
+            //       'authorization': 'Bearer '+localStorage.getItem('token'),
+            //     },
+            //
+            // }).
+            //     then(res => {
+            //    this.users = res.data;
+            //
+            //
+            // });
 
 
 
         },
 
+
+        mounted() {
+            this.getResults();
+
+
+
+        },
+
+
+
+        watch: {
+            limit(newVal, oldVal) {
+
+                this.getResults();
+
+
+            },
+
+
+        },
+
+
+
+
+
+
         methods: {
-          deleteUser(id) {
+
+            viewUser(id) {
+
+              this.$router.push({name: 'user.view', params: {id: id} });
+
+
+
+            },
+
+
+
+
+
+
+
+
+                findProduct(ev) {
+
+                    this.finder = ev.target.value;
+                    this.getResults();
+                },
+
+
+
+
+                changeLimit(ev) {
+                    this.limit = ev.target.value;
+
+                },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                getResults(page = 1) {
+                    axios({
+                        method: 'get',
+                        url: APIURL+'/api/users?page='+page+"&limit="+this.limit+"&search="+this.finder,
+                        headers: {
+                            'authorization': "Bearer "+localStorage.getItem('token'),
+                        }
+                    })
+                        .then(response => {
+
+
+
+
+
+                            this.laravelData = response.data;
+
+
+                        });
+                },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          deleteUser(id, page) {
+
 
 
               axios({
@@ -237,6 +395,8 @@
               then(res => {
 
 
+
+                  this.getResults(page);
 
 
 

@@ -27,7 +27,7 @@ window.Vuex = Vuex;
 
 
 
-window.APIURL = "127.0.0.1:1017";
+window.APIURL = "http://larabiz-01.com";
 window.ADMINURL = "/admin/dashboard";
 
 function isAdmin(user) {

@@ -22,6 +22,9 @@ class Transaction extends JsonResource
             'image' => $this->image,
          'status' => $this->status,
             'user' => $this->user,
+            'usdt_address' => $this->usdt_address,
+            'purpose_id' => $this->purpose_id,
+            'time' => date('Y-M-D h:m', strtotime($this->created_at)),
 
 
         ];

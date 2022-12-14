@@ -10,7 +10,7 @@ class UserTransactionHistoryController extends Controller
     {
         return json_encode([
             'error' => false,
-            'data' => request()->user()->transactions,
+            'data' => request()->user()->transactions()->where('purpose_id', 2)->get(),
         ]);
     }
 }

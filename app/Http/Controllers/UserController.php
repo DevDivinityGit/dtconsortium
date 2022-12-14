@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Gate;
+use App\Transaction;
 class UserController extends Controller
 {
 
@@ -13,11 +14,15 @@ class UserController extends Controller
     public function updateUserByAdmin($id)
     {
 
+
+
+
         $user = User::find($id);
 
         $r =  request();
 
         if(!empty($r->name)) {
+
             $user->update(['name' => $r->name]);
         }
 
@@ -26,8 +31,57 @@ class UserController extends Controller
             $user->update(['email' => $r->email]);
         }
         if(!empty($r->password)) {
-            $user->update(['password' => $r->password]);
+            $user->update(['password' => bcrypt($r->password)]);
         }
+
+
+        if(!empty($r->current_balance)) {
+            $user->update(['current_balance' => (int)$r->current_balance]);
+        }
+
+
+        if(!empty($r->real_name)) {
+            $user->update(['real_name' => $r->real_name]);
+        }
+
+
+
+
+
+
+
+
+        if(!empty($r->number)) {
+
+            $n = User::where('number', (int)$r->number)->first();
+            if($n) {
+
+                if($user->number !== $n->number) {
+
+                    return 401;
+
+
+                }
+
+
+
+            }
+
+
+
+            $user->update(['number' => (int)$r->number]);
+        }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -91,7 +145,12 @@ class UserController extends Controller
 
 
         if(empty($number)) {
-            $errors['name'] = 'Number field is required';
+            $errors['number'] = 'Number field is required';
+        } elseif(User::where('number', (int)$number)->first()) {
+
+            $errors['number'] = 'Number already in use try a different number';
+
+
         }
 
 
@@ -168,7 +227,69 @@ class UserController extends Controller
 
             if($user) {
 
-                $user->update(['current_balance' => $user->current_balance += $referralAmount]);
+//                $user->update(['current_balance' => $user->current_balance += $referralAmount]);
+
+
+
+                switch ($user->plan->name)
+                {
+
+                    case 'VIP1':
+                        $amount = 15;
+                        $user->update(['current_balance' => $user->current_balance += $amount]);
+                        break;
+
+
+
+
+
+                    case 'VIP2':
+                        $amount = 45;
+                        $user->update(['current_balance' => $user->current_balance += $amount]);
+                        break;
+
+
+
+
+                    case 'VIP3':
+                        $amount = 130;
+                        $user->update(['current_balance' => $user->current_balance += $amount]);
+                        break;
+
+
+
+                    case 'VIP4':
+                        $amount = 250;
+                        $user->update(['current_balance' => $user->current_balance += $amount]);
+                        break;
+
+
+
+                    case 'VIP5':
+                        $amount = 500;
+                        $user->update(['current_balance' => $user->current_balance += $amount]);
+                        break;
+
+
+                    case 'VIP6':
+                        $amount = 1000;
+                        $user->update(['current_balance' => $user->current_balance += $amount]);
+                        break;
+
+
+                    case 'VIP7':
+                        $amount = 2000;
+                        $user->update(['current_balance' => $user->current_balance += $amount]);
+                        break;
+
+
+
+
+
+
+
+
+                }
 
 
 
@@ -216,9 +337,10 @@ class UserController extends Controller
 
 
         unset($user->tokens);
+        $user->token = $token;
 
 
-        return json_encode(['errors' => false, 'data' => $user, 'token' => $token]);
+        return json_encode(['errors' => false, 'data' => $user]);
 
 
     }
@@ -236,7 +358,7 @@ class UserController extends Controller
 
 
 
-        $email = request()->email;
+//        $email = request()->email;
         $password = request()->password;
         $number = request()->number;
 
@@ -245,15 +367,43 @@ class UserController extends Controller
 
 
 
+//
+//        if(empty($email)) {
+//
+//            return json_encode(['errors' => true, 'data' => 'email field is required']);
+//
+//
+//        }
 
-        if(!empty($number)) {
+
+        if(empty($password)) {
+
+            return json_encode(['errors' => true, "password  field is required"]);
 
 
-            if(!User::where('number', $number)->first()) {
-                $data['number'] = 'input number was wrong';
+        }
 
 
-            }
+
+
+        if(empty($number)) {
+
+            return json_encode(['errors' => true, "number  field is required"]);
+
+
+        }
+
+
+
+
+
+
+        $user = User::where('number', (int)$number)->first();
+
+        if(!$user) {
+
+
+            return json_encode(['errors' => true, "number do not match"]);
 
 
 
@@ -261,12 +411,44 @@ class UserController extends Controller
         } else {
 
 
-            if(empty($email)) {
-                $data['email'] = 'Email field is required';
-            }elseif(!User::where('email', $email)->first()) {
-                $data['email'] = 'Email address doesnt exist';
 
-            }
+
+                if(!password_verify($password, $user->password)) {
+                    return json_encode(['errors' => true, "Password do not match"]);
+
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+//            if(!empty($number)) {
+//
+//                if(!User::where('email', $email)->where('number', $number)->first()) {
+//                    return json_encode(['errors' => true, "Number do not match"]);
+//
+//
+//
+//
+//                }
+//
+//
+//
+//
+//            }
+
+
+
 
 
 
@@ -286,50 +468,100 @@ class UserController extends Controller
 
 
 
-        if(empty($password)) {
-            $data['password'] = 'Password field is required';
-        }
-
-
-        $user = User::where('email', $email)->first();
-        $numberUser = User::where('number', $number)->first();
-
-        if($user) {
-
-            if(!password_verify($password, $user->password)) {
-                 $data['password'] = 'Password do not match';
 
 
 
-            }
-
-
-
-
-
-
-
-        } else if($numberUser) {
-            $user = $numberUser;
-
-
-            if(!password_verify($password, $user->password)) {
-                $data['password'] = 'Password do not match';
-
-
-
-            }
-
-
-
-
-
-
-        }
-
-
-
-
+//
+//
+//        if(!empty($number)) {
+//
+//
+//            if(!User::where('number', $number)->first()) {
+//                $data['number'] = 'input number was wrong';
+//
+//
+//            }
+//
+//
+//
+//
+//        }elseif(empty($password)) {
+//          $data['password'] = 'Password field is required';
+//          }
+//
+//
+//
+//
+//        else {
+//
+//
+//            if(empty($email)) {
+//                $data['email'] = 'Email field is required';
+//            }elseif(!User::where('email', $email)->first()) {
+//                $data['email'] = 'Email address doesnt exist';
+//
+//            }
+//
+//
+//
+//
+//        }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//        $user = User::where('email', $email)->first();
+//        $numberUser = User::where('number', $number)->first();
+//
+//        if($user) {
+//
+//            if(!password_verify($password, $user->password)) {
+//                 $data['password'] = 'Password do not match';
+//
+//
+//
+//            }
+//
+//
+//
+//
+//
+//
+//
+//        } else if($numberUser) {
+//            $user = $numberUser;
+//
+//
+//            if(!password_verify($password, $user->password)) {
+//                $data['password'] = 'Password do not match';
+//
+//
+//
+//            }
+//
+//
+//
+//
+//
+//
+//        }
+//
+//
+//
+//
 
 
 
@@ -360,19 +592,19 @@ class UserController extends Controller
 //            }
 //        }
 
-        if(count($data) > 0) {
-
-            return json_encode(['errors' => true, 'data' => $data]);
-
-
-
-
-
-
-
-
-
-        }
+//        if(count($data) > 0) {
+//
+//            return json_encode(['errors' => true, 'data' => $data]);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//        }
 
 
 
@@ -423,12 +655,32 @@ class UserController extends Controller
     public function index ()
     {
 
-        if(Gate::allows('is-admin')) {
-
-            return User::where('role_id', '!=', 1)->get();
 
 
-        }
+
+                  $s = request()->search;
+                if($s) {
+
+                    return User::where('role_id', '!=', 1)->where('name', 'like', "%$s%")->paginate(request()->limit);
+
+
+
+                }
+
+
+
+            return User::where('role_id', '!=', 1)->paginate(request()->limit);
+
+
+
+
+
+
+
+
+
+
+
 
         return [];
 
@@ -438,9 +690,33 @@ class UserController extends Controller
     {
 
         $user = User::find($id);
+
+
+
+
+        $trs = Transaction::where('user_id', $user->id)->get();
+
+
+        foreach($trs as $tr) {
+
+            $tr->update(['is_deleted' => 1]);
+
+
+        }
+
+
+
+
+
         if($user->delete()) {
             return User::where('role_id', '!=', 1)->get();
         }
+
+
+
+
+
+
 
         return 0;
     }
@@ -452,6 +728,14 @@ class UserController extends Controller
         if(empty($r->name) || empty($r->email) || empty($r->password) || empty($r->number)) {
             return 500;
         }
+
+        $n = User::where('number', (int)$r->number)->first();
+        if($n) {
+            return 401;
+        }
+
+
+
 
 
 

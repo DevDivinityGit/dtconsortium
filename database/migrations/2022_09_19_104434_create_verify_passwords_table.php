@@ -15,7 +15,7 @@ class CreateVerifyPasswordsTable extends Migration
     {
         Schema::create('verify_passwords', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->string('email');
             $table->string('code');
             $table->unsignedInteger('verified')->default(0);
             $table->timestamps();

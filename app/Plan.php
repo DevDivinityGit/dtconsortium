@@ -9,6 +9,15 @@ class Plan extends Model
     protected $guarded = [];
     protected $table = 'plans';
 
+    public function users()
+    {
+        return $this->hasMany(User::class, 'plan_id');
+    }
+
+
+
+
+
 
 
 

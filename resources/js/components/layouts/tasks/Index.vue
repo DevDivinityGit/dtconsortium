@@ -5,7 +5,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Tasks </h1>
+                        <h1 class="m-0 text-dark">Submitted Tasks </h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -109,7 +109,7 @@
                                 </th>
                                 <th class="sorting" tabindex="0" aria-controls="example1"
                                     rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"
-                                    style="width: 100px;">
+                                    style="width: 50px;">
                                     Category
                                 </th>
 
@@ -125,7 +125,7 @@
 
                                 <th class="sorting" tabindex="0" aria-controls="example1"
                                     rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending"
-                                    style="width: 100px;">
+                                    style="width: 50px;">
                                     Status
                                 </th>
 
@@ -133,7 +133,7 @@
 
                                 <th class="sorting" tabindex="0" aria-controls="example1"
                                     rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending"
-                                    style="width: 20px;">
+                                    style="width: 10px;">
                                     Link
                                 </th>
 
@@ -156,6 +156,16 @@
                                     style="width: 20px;">
                                     image
                                 </th>
+
+
+
+
+                                <th class="sorting" tabindex="0" aria-controls="example1"
+                                    rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending"
+                                    style="width: 100px;">
+                                    Time
+                                </th>
+
 
 
 
@@ -191,12 +201,12 @@
 
 
 
-                                <td v-if="product.status == null">Not taken</td>
-                                <td v-else>{{product.status}}</td>
+                                <!--<td v-if="product.status == null">Not taken</td>-->
+                                <td>{{product.status}}</td>
 
 
                                 <td>
-                                    {{product.task_link}}
+                                    {{product.task_link.substring(0, 10)+"..."}}
                                 </td>
 
 
@@ -210,8 +220,21 @@
 
 
                                 <td>
-                                    <img :src="product.image" style="width: 50px; height: 30px;" alt="">
+
+
+
+                                    <img @click="hitImg()" class="the-img" :src="product.image" style="cursor: pointer; width: 50px; height: 30px;" alt="">
                                 </td>
+
+
+
+
+                                <td>
+                                    {{product.submitted_time}}
+
+                                </td>
+
+
 
 
 
@@ -225,16 +248,33 @@
 
 
 
+
+
                                     <!--<router-link :to="{name: 'product.edit', params: {slug: product.slug}}"  style="font-size: 65%;" clas---s="btn btn-sm btn-warning">Edit</router-link>-->
 
-                                    <button v-if="product.status == 'inprogress'" @click="hitAcceptance(product.id, product.user.id)"  class="btn btn-sm btn-success" style="font-size: 65%;" >Acceptance</button>
-                                    <button  v-if="product.status == 'inprogress'" @click="hitRejection(product.id, product.user.id)" class="btn btn-sm btn-danger" style="font-size: 65%;" >Rejection</button>
+                                    <button v-if="product.status == 'inprogress'" @click="hitAcceptance(product.id, product.user.id, theLaravelData.meta.current_page)"  class="btn btn-sm btn-success" style="font-size: 65%;" >Acceptance</button>
+                                    <button  v-if="product.status == 'inprogress'" @click="hitRejection(product.id, product.user.id, theLaravelData.meta.current_page)" class="btn btn-sm btn-danger" style="font-size: 65%;" >Rejection</button>
                                     <!--<button  v-if="product.status === 'Accepted'" @click="hitRestore(product.id)" class="btn btn-sm btn-info" style="font-size: 65%;" >Restore</button>-->
-                                    <button  v-if="product.status === 'Rejected'" @click="hitRestore(product.id, product.user.id)" class="btn btn-sm btn-info" style="font-size: 65%;" >Restore</button>
+                                    <!--<button  v-if="product.status === 'Rejected'" @click="hitRestore(product.id, product.user.id)" class="btn btn-sm btn-info" style="font-size: 65%;" >Restore</button>-->
 
                                 </td>
 
                             </tr>
+
+
+
+
+
+                            <tr role="row"   v-if="theLaravelData.data.length === 0" class="even">
+
+                                <td  >
+                                    <strong>No records found</strong>
+                                </td>
+
+                            </tr>
+
+
+
 
 
 
@@ -372,6 +412,59 @@
 
         methods: {
 
+
+
+
+
+            hitImg() {
+                $('.the-img').addClass('img-enlargable').click(function(){
+                    var src = $(this).attr('src');
+                    $('<div class="theD">').css({
+                        background: 'RGBA(0,0,0,.5) url('+src+') no-repeat center',
+                        backgroundSize: 'contain',
+                        width:'100%', height:'100%',
+                        position:'fixed',
+                        zIndex:'99',
+                        top:'0', left:'0',
+                        cursor: 'zoom-out'
+                    }).click(function(){
+
+
+                        $(this).remove();
+
+                        $(".theD").remove();
+
+
+
+
+
+
+
+
+                    }).appendTo('body');
+                });
+
+
+
+
+
+
+
+
+            },
+
+
+
+
+
+
+
+
+
+
+
+
+
             findTasks(ev) {
 
 
@@ -413,7 +506,7 @@
 
                 });
             },
-            hitAcceptance(id, userId) {
+            hitAcceptance(id, userId, page) {
                 axios({
                     method: 'get',
                     url: '/api/tasks/acceptance/'+id+'?user_id='+userId,
@@ -422,7 +515,11 @@
                 }).
                 then(res => {
 
-                   this.getResults();
+
+
+
+
+                   this.getResults(page);
 
 
                     if(res.data !== 0) {
@@ -440,7 +537,7 @@
             },
 
 
-            hitRestore(id, userId) {
+            hitRestore(id, userId, page) {
 
 
 
@@ -456,7 +553,7 @@
 
 
 
-                    this.getResults();
+                    this.getResults(page);
 
 
 
@@ -532,7 +629,7 @@
                     }
                 })
                     .then(response => {
-                        console.clear();
+                        // console.clear();
                         console.log(response.data);
 
 

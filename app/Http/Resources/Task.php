@@ -20,12 +20,19 @@ class Task extends JsonResource
             'name' => $this->name,
             'category' => $this->category,
             'price' => $this->price,
-            'status' => $this->pivot->task_status,
+            'status' => isset($this->pivot) ? $this->pivot->task_status : null,
+            'image' => isset($this->pivot) ? $this->pivot->image : null,
+            'submitted_time' => isset($this->pivot) ?  date('Y-M-D h:m', strtotime($this->pivot->created_at)) : null,
+
+
+
             'task_link' => $this->task_link,
             'user' => $this->userData,
             'demand' => $this->demand,
             'remaining' => $this->remaining,
-            'image' => $this->image,
+            'task_image' => $this->image,
+            'description' => $this->description,
+            'time' => date('Y-M-D h:m', strtotime($this->created_at)),
 //            'user' => $this->users()->find(++$this->prop),
 
 

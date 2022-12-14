@@ -9,3 +9,5 @@ export default new Vuex.Store({
      User,
     }
 });
+
+

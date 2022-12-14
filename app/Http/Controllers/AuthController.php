@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+//use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 use App\User;
 use App\Http\Resources\User as UserResource;
+
 class AuthController extends Controller
 {
     public function __construct()
@@ -53,6 +55,7 @@ class AuthController extends Controller
           'password' => bcrypt($password),
         ];
         $user = User::create($validated);
+
 
 //        END CREATING USER
 
@@ -112,6 +115,7 @@ class AuthController extends Controller
 
 
 //        CREATE ACCESS TOKEN
+                $_SESSION['get_user_id'] = $user->id;
                 $tokens = $user->tokens;
 
 
@@ -126,7 +130,7 @@ class AuthController extends Controller
 
 
                 $user->token = $token;
-                $_SESSION['user_id'] = $user->id;
+//                $_SESSION['user_id'] = $user->id;
 
 
                 return new UserResource($user);

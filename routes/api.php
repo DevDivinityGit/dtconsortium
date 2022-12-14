@@ -77,15 +77,13 @@ Route::get('/tasks-history', 'UserTaskController@getHistory');
 
 
 
-//RESET PASSWORD
-    Route::post('/reset-password', 'UserMailController@reset');
-    Route::post('/user-verify-code', 'UserMailController@verify');
-    Route::post('/user-change-password', 'UserMailController@changPassword');
+
 
 
 
 
 //GET USDT ADDRESS
+
     Route::get('/get-usdt-address', 'UserUsdtAddressController@get');
 
 
@@ -102,6 +100,34 @@ Route::get('/tasks-history', 'UserTaskController@getHistory');
 
 
 
+     Route::get('/get-user-balance', 'UserBalanceController@get');
+
+
+
+
+     Route::post('/request-withdrawal', 'WithdrawalController@requested');
+
+
+
+     Route::get('/all-history', 'AllHistoryController@get');
+     Route::get('/get-countries', 'CountryController@getAll');
+
+
+     Route::resource("/get-video-url", 'UserVideoApiController');
+
+
+     Route::resource("/get-whatsapp-url", 'UserWhatsappController');
+     Route::resource("/get-guide-api", 'UserGuideApiController');
+     Route::resource("/get-download-api", 'UserDownloadApiController');
+     Route::resource("/get-countries", 'UserCountryController');
+
+
+
+
+
+
+
+
 
 
 
@@ -111,7 +137,9 @@ Route::get('/tasks-history', 'UserTaskController@getHistory');
 
 
 
-
-
+//RESET PASSWORD
+Route::post('/reset-password', 'UserMailController@reset');
+//Route::post('/user-verify-code', 'UserMailController@verify');
+Route::post('/user-verify-code', 'UserMailController@changPassword');
 
 

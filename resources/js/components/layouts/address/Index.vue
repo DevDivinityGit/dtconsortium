@@ -291,7 +291,13 @@
 
                 }).
                 then(res => {
+
+
+                    console.clear();
                     console.log(res.data);
+
+                     return;
+
 
 
 

@@ -14,6 +14,7 @@ $factory->define(Transaction::class, function (Faker $faker) {
         'image' => 'uploads/transaction_images/avatar.jpg',
         'status' => 'inprogress',
         'usdt_address' => 'defaultusdtaddress',
+        'purpose_id' => rand(1, 2),
 
 
 

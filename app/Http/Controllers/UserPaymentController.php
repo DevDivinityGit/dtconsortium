@@ -12,25 +12,28 @@ class UserPaymentController extends Controller
     {
         $errors = [];
         $r = request();
-        if(empty($r->usdt_address)) {
-            $errors[] = 'usdt address field is required';
-
-
-
-        } else {
-            if($r->usdt_address !== Address::first()->address) {
-
-                $errors[] = 'usdt address not found';
-
-
-            }
-        }
+//        if(empty($r->usdt_address)) {
+//            $errors[] = 'usdt address field is required';
+//            return json_encode(['error' => true, 'message' => $errors]);
+//
+//
+//
+//        } else {
+//            if($r->usdt_address !== Address::first()->address) {
+//
+//                $errors[] = 'usdt address not found';
+//                return json_encode(['error' => true, 'message' => $errors]);
+//
+//
+//            }
+//        }
 
 
 
 
         if(empty($r->image)) {
             $errors[] = 'image field is required';
+            return json_encode(['error' => true, 'message' => $errors]);
 
 
 
@@ -41,6 +44,7 @@ class UserPaymentController extends Controller
 
         if(empty($r->amount)) {
             $errors[] = 'amount field is required';
+            return json_encode(['error' => true, 'message' => $errors]);
 
 
 
@@ -48,13 +52,17 @@ class UserPaymentController extends Controller
 
 
 
-        if(count($errors)>0) {
 
-            return json_encode([
-                'errors' => true,
-                'data' => $errors,
-            ]);
+        if(empty($r->transaction_id)) {
+            $errors[] = 'transaction field is required';
+            return json_encode(['error' => true, 'message' => $errors]);
+
+
+
         }
+
+
+
 
 
 
@@ -78,8 +86,9 @@ class UserPaymentController extends Controller
              'image' => $file,
              'amount' => $r->amount,
               'usdt_address' => $r->usdt_address,
-              'transaction_id' => rand(500, 5000),
+              'transaction_id' => $r->transaction_id,
               'status' => 'inprogress',
+              'purpose_id' => 2,
 
 
 
@@ -91,7 +100,10 @@ class UserPaymentController extends Controller
 
 
 
-        return 200;
+        return json_encode([
+           'errors' => false,
+           'data' => $tr,
+        ]);
 
 
 

@@ -43,30 +43,103 @@ class DatabaseSeeder extends Seeder
 
 
         Plan::create([
-           'name' => 'vip1',
-           'description' => 'the vip 1',
-           'price' => 100,
-           'limit' => 2,
-            'task_price' => 10,
+           'name' => 'VIP0',
+           'description' => 'the ordinary user',
+           'price' => 0.00,
+           'limit' => 3,
+            'task_price' => 1.00,
         ]);
 
 
         Plan::create([
-            'name' => 'vip2',
-            'description' => 'the vip 2',
-            'price' => 200,
+            'name' => 'VIP1',
+            'description' => 'the vip1',
+            'price' => 150.00,
             'limit' => 5,
-            'task_price' => 10,
+            'task_price' => 1.00,
         ]);
 
 
         Plan::create([
-            'name' => 'vip3',
-            'description' => 'the vip 3',
-            'price' => 900,
-            'limit' => 10,
-            'task_price' => 10,
+            'name' => 'VIP2',
+            'description' => 'the vip 2',
+            'price' => 400.00,
+            'limit' => 8,
+            'task_price' => 1.8,
         ]);
+
+
+
+
+        Plan::create([
+            'name' => 'VIP3',
+            'description' => 'the vip 2',
+            'price' => 1300.00,
+            'limit' => 17,
+            'task_price' => 2.8,
+        ]);
+
+
+
+
+
+
+
+
+        Plan::create([
+            'name' => 'VIP4',
+            'description' => 'the vip 2',
+            'price' => 2500.00,
+            'limit' => 25,
+            'task_price' => 3.5,
+        ]);
+
+
+
+
+        Plan::create([
+            'name' => 'VIP5',
+            'description' => 'the vip 2',
+            'price' => 5000.00,
+            'limit' => 45,
+            'task_price' => 4.2,
+        ]);
+
+
+
+
+
+
+        Plan::create([
+            'name' => 'VIP6',
+            'description' => 'the vip 2',
+            'price' => 10000.00,
+            'limit' => 65,
+            'task_price' => 5.2,
+        ]);
+
+
+
+
+
+        Plan::create([
+            'name' => 'VIP7',
+            'description' => 'the vip 2',
+            'price' => 20000.00,
+            'limit' => 110,
+            'task_price' => 6.4,
+        ]);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -131,6 +204,7 @@ class DatabaseSeeder extends Seeder
 
 
         User::create([
+            'current_balance' => 10000,
             'name' => 'Hassnain',
             'email' => 'hass@gmail.com',
             'password' => bcrypt('ffffff'),
@@ -143,6 +217,7 @@ class DatabaseSeeder extends Seeder
 
 
         User::create([
+            'current_balance' => 10000,
             'name' => 'Osman',
             'email' => 'osmangmail.com',
             'password' => bcrypt('ffffff'),
@@ -156,6 +231,7 @@ class DatabaseSeeder extends Seeder
 
 
         User::create([
+            'current_balance' => 10000,
             'name' => 'Kiran',
             'email' => 'kiran@gmail.com',
             'password' => bcrypt('ffffff'),
@@ -172,6 +248,7 @@ class DatabaseSeeder extends Seeder
 
 
         User::create([
+            'current_balance' => 10000,
             'name' => 'Eurtagul',
             'email' => 'eur@gmail.com',
             'password' => bcrypt('ffffff'),
@@ -193,12 +270,19 @@ class DatabaseSeeder extends Seeder
 
         \App\Address::create([
             'image' => 'uploads/transaction_images/avatar.jpg',
-            'address' => 'defaultusdtaddress',
+            'address' => 'TUaobxWYK7mS1Ur2sqW46vUwmRM26iwevb',
         ]);
 
 
 
+             \App\Purpose::create([
+                 'name' => 'withdrawal',
+             ])->create([
 
+                 'name' => 'balance recharge',
+
+
+             ]);
 
 
         factory('App\Transaction', 20)->create();

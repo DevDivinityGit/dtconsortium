@@ -14,7 +14,32 @@ class PlanController extends Controller
      */
     public function index()
     {
-        return Plan::all();
+
+
+        $arr = [];
+
+
+        foreach(Plan::all() as $item) {
+            $item->user = count($item->users);
+
+            array_push($arr, $item);
+
+
+        }
+
+
+
+
+
+
+
+
+
+        return $arr;
+
+
+
+
     }
 
     /**

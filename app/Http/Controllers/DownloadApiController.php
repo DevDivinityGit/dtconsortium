@@ -35,49 +35,68 @@ class DownloadApiController extends Controller
      */
     public function store(Request $r)
     {
+
         $attr = [];
         $attr['android_link'] = $r->android_link;
-        $attr['iso_link'] = $r->iso_link;
+//        $attr['iso_link'] = $r->iso_link;
         $attr['text'] = $r->text;
 
-        foreach($attr as $key => $val) {
-            if(empty($attr[$key])) {
-                return 500;
-            }
 
-
-
-        }
+        $first = DownloadApi::first();
 
 
 
 
+        if($first) {
 
+            $first->update([
+               'android_link' => !empty($attr['android_link']) ? $attr['android_link'] : $first->android_link,
+               'text' => !empty($attr['text']) ? $attr['text'] : $first->text,
 
-
-
-        if(DownloadApi::first()) {
-
-            DownloadApi::first()
-                ->update([
-                       'android_link' => $attr['android_link'],
-                       'iso_link' => $attr['iso_link'],
-                       'text' => $attr['text'],
-                   ]);
-
-
+            ]);
 
 
         } else {
 
+
+            foreach($attr as $key => $val) {
+                if(empty($attr[$key])) {
+                    return 500;
+                }
+
+
+
+            }
+
+
+
+
+
             DownloadApi::create([
                 'android_link' => $attr['android_link'],
-                'iso_link' => $attr['iso_link'],
+//            'iso_link' => $attr['iso_link'],
                 'text' => $attr['text'],
             ]);
 
 
+
+
+
+
+
+
+
+
+
+
+
         }
+
+
+
+
+
+
 
 
 

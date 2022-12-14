@@ -12,321 +12,81 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="/admin/template/dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
-    <link href="/admin/template/https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+
+    <link rel="stylesheet" href="/css/app.css">
+    <style>
+
+
+        .select2 .select2-selection__choice__display {
+            /*background: #636363;*/
+            color: #000;
+        }
+        /*select2-selection*/
+        .addDangerous {
+            outline: none !important;
+            border-color: red !important;
+            box-shadow: 0 0 10px red !important;
+        }
+
+
+
+
+    </style>
+
+
+    {{--<span class=" select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="false"><ul class="select2-selection__rendered" id="select2-states-po-container"><li class="select2-selection__choice" title="Latest Products" data-select2-id="select2-data-10-3qox"><button type="button" class="select2-selection__choice__remove" tabindex="-1" title="Remove item" aria-label="Remove item" aria-describedby="select2-states-po-container-choice-9xsq-1"><span aria-hidden="true">×</span></button><span class="select2-selection__choice__display" id="select2-states-po-container-choice-9xsq-1">Latest Products</span></li><li class="select2-selection__choice" title="Top Selling Products" data-select2-id="select2-data-11-97mo"><button type="button" class="select2-selection__choice__remove" tabindex="-1" title="Remove item" aria-label="Remove item" aria-describedby="select2-states-po-container-choice-vw85-2"><span aria-hidden="true">×</span></button><span class="select2-selection__choice__display" id="select2-states-po-container-choice-vw85-2">Top Selling Products</span></li></ul><span class="select2-search select2-search--inline"><textarea class="select2-search__field" type="search" tabindex="0" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" --}}
+
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
-        <!-- Left navbar links -->
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="/admin/template/#"><i class="fa fa-bars"></i></a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="/admin/template/index3.html" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="/admin/template/#" class="nav-link">Contact</a>
-            </li>
-        </ul>
 
-        <!-- SEARCH FORM -->
-        <form class="form-inline ml-3">
-            <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-navbar" type="submit">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-
-        <!-- Right navbar links -->
-
-    </nav>
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <!-- Brand Logo -->
-        <a href="/admin/template/index3.html" class="brand-link">
-            <img src="/admin/template/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-                 style="opacity: .8">
-            <span class="brand-text font-weight-light">AdminLTE 3</span>
-        </a>
-
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Sidebar user panel (optional) -->
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
-                    <img src="/admin/template/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-                </div>
-                <div class="info">
-                    <a href="/admin/template/#" class="d-block">Alexander Pierce</a>
-                </div>
-            </div>
-
-            <!-- Sidebar Menu -->
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-                         with font-awesome or any other icon font library -->
-                    <li class="nav-item has-treeview menu-open">
-                        <a href="/admin/template/#" class="nav-link active">
-                            <i class="nav-icon fa fa-dashboard"></i>
-                            <p>
-                                Dashboard
-                                {{--<i class="right fa fa-angle-left"></i>--}}
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-
-                        </ul>
-                    </li>
-
-                    <li class="nav-item has-treeview">
-                        <a href="/admin/template/#" class="nav-link">
-                            <i class="nav-icon fa fa-pie-chart"></i>
-                            <p>
-                                Charts
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/charts/chartjs.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>ChartJS</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/charts/flot.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Flot</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/charts/inline.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Inline</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="/admin/template/#" class="nav-link">
-                            <i class="nav-icon fa fa-tree"></i>
-                            <p>
-                                UI Elements
-                                <i class="fa fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/UI/general.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>General</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/UI/icons.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Icons</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/UI/buttons.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Buttons</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/UI/sliders.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Sliders</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="/admin/template/#" class="nav-link">
-                            <i class="nav-icon fa fa-edit"></i>
-                            <p>
-                                Forms
-                                <i class="fa fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/forms/general.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>General Elements</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/forms/advanced.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Advanced Elements</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/forms/editors.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Editors</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="/admin/template/#" class="nav-link">
-                            <i class="nav-icon fa fa-table"></i>
-                            <p>
-                                Tables
-                                <i class="fa fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/tables/simple.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Simple Tables</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/template/pages/tables/data.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Data Tables</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-
-
-                </ul>
-            </nav>
-            <!-- /.sidebar-menu -->
-        </div>
-        <!-- /.sidebar -->
-    </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Dashboard </h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/admin/template/#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard </li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <!-- Info boxes -->
-                <div class="row">
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">CPU Traffic</span>
-                                <span class="info-box-number">
-                  10
-                  <small>%</small>
-                </span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-google-plus"></i></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Likes</span>
-                                <span class="info-box-number">41,410</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
+    <div id="app">
 
-                    <!-- fix for small devices only -->
-                    <div class="clearfix hidden-md-up"></div>
 
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-success elevation-1"><i class="fa fa-shopping-cart"></i></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Sales</span>
-                                <span class="info-box-number">760</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-users"></i></span>
+        <div id="ssr-box">
+            <navcom></navcom>
+            <scom></scom>
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">New Members</span>
-                                <span class="info-box-number">2,000</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
+                <!-- /.content-header -->
+
+                <!-- Main content -->
+                <div>
+
+
+                    <h1>Hello Hassnain</h1>
+                    `
+                    <router-view :key="$router.path"></router-view>
                 </div>
-                <!-- /.row -->
+                <!-- /.content -->
+            </div>
+
+            <footercom></footercom>
 
 
-                <!-- /.row -->
 
-                <!-- Main row -->
+        </div>
 
-                <!-- /.row -->
-            </div><!--/. container-fluid -->
-        </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+
+
 
     <!-- Main Footer -->
-    <footer class="main-footer">
-        <!-- To the right -->
-        <div class="float-right d-sm-none d-md-block">
-            Anything you want
-        </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2014-2018 <a href="/admin/template/https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-    </footer>
 </div>
 <!-- ./wrapper -->
 
@@ -354,5 +114,35 @@
 
 <!-- PAGE SCRIPTS -->
 <script src="/admin/template/dist/js/pages/dashboard2.js"></script>
+
+
+<script type="text/javascript" src="/js/lib/helpers.js"></script>
+<script type="text/javascript" src="/js/lib/jquery_prev.js"></script>
+
+<script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
+
+<script>
+
+
+
+
+</script>
+
+<script src="/js/bootstrap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script src="/js/admin/admin_app.js"></script>
+
+<script>
+
+
+
+
+</script>
+
+
+
+
+
 </body>
 </html>

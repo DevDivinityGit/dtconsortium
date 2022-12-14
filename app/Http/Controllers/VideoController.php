@@ -35,14 +35,35 @@ class VideoController extends Controller
      */
     public function store(Request $r)
     {
+//        return $r->all();
 
          if(!empty($r->name)) {
+             $link = $r->name;
 
-             Video::create(['name' => $r->name]);
-             return 200;
+
          }
-    }
 
+
+        if(!empty($r->url_name)) {
+            $name = $r->url_name;
+
+
+        }
+
+
+
+        Video::create(['url' => $link, 'name' => $name]);
+
+
+
+         return 200;
+
+
+
+
+
+
+    }
     /**
      * Display the specified resource.
      *
@@ -75,19 +96,23 @@ class VideoController extends Controller
     public function update(Request $r, Video $video)
     {
 
+
+//        return $r->all();
+
           $attr = [];
-        $attr['name'] = $r->name;
+        $attr['name'] = $r->name ? $r->name : $video->name;
+        $attr['url'] = $r->url ? $r->url : $video->url;
 //        $attr['iso_link'] = $r->iso_link;
 //        $attr['text'] = $r->text;
 
-        foreach($attr as $key => $val) {
-            if(empty($attr[$key])) {
-                return 500;
-            }
-
-
-
-        }
+//        foreach($attr as $key => $val) {
+//            if(empty($attr[$key])) {
+//                return 500;
+//            }
+//
+//
+//
+//        }
 
 
 

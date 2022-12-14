@@ -37,11 +37,11 @@ class MailController extends Controller
             $_SESSION['current_email'] = $email;
 
 
-            Mail::send("mail", ['name' => 'BANG'], function ($msg) {
+            Mail::send("mail", ['name' => 'Reset Password'], function ($msg) {
 
-                $msg->to("hasnain@coderightway.com")
-                    ->subject('the subject');
-                $msg->from($GLOBALS['email']);
+                $msg->to($GLOBALS['email'])
+                    ->subject('Reset Password');
+                $msg->from("theuser70yz@gmail.com");
 
 
             });

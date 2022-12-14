@@ -170,7 +170,8 @@
                             const data = res.data.data;
                             localStorage.setItem('token', data.token);
                             localStorage.setItem('user', JSON.stringify(data.user));
-                            this.$router.push({name: 'home'});
+                            location.href = "/";
+                            // this.$router.push({name: 'root'});
                         }
 
 
@@ -181,7 +182,7 @@
 
                         } else if(res.data.data) {
                             let data = res.data.data;
-                            this.$router.push({name: 'home'});
+                            this.$router.push({name: 'root'});
 
                             return;
 
@@ -212,7 +213,7 @@
 
 
 
-                                this.$router.push({name: 'home'});
+                                this.$router.push({name: 'root'});
 
 
                             }

@@ -7,12 +7,44 @@ import ChangePassword from "../components/layouts/ChangePassword";
 
 
 
+
+// COMPONENTS
+
+import Slider from "../components/admin/layouts/Slider";
+import Footer from "../components/admin/layouts/Footer";
+import Nav from "../components/admin/layouts/Nav";
+
+
+
+Vue.component("scom", Slider);
+Vue.component("footercom", Footer);
+Vue.component("navcom", Nav);
+
+
+
+
+
+
+// END COMPONENTS
+
+
+
+
+
+
+
+
+
+import TestCom from "../components/Test";
+
+
 //USER CRUD
 
 
 import MainContent from "../components/layouts/users/Maincontent";
 import CreateUser from "../components/layouts/users/CreateUser";
 import EditUser from "../components/layouts/users/Edit";
+import UserView from "../components/layouts/users/View";
 import VerifyCode from "../components/admin/layouts/VerifyCode";
 
 // END USER CRUD
@@ -32,6 +64,8 @@ import EditPlan from "../components/layouts/plans/Edit";
 
 import AllTasks from "../components/layouts/tasks/Index";
 import CreateTask from "../components/layouts/tasks/Create";
+import AllTask from "../components/layouts/tasks/AllTasks";
+import TaskEdit from "../components/layouts/tasks/Edit";
 
 
 // END TASK ROUTES
@@ -68,23 +102,73 @@ import WhatsappIndex from "../components/layouts/whatsapp_links/Index";
 // TRANSACTIONS
 
 import TransactionsIndex from "../components/layouts/transactions/Index";
+import TransactionWithdrawal from "../components/layouts/transactions/Withdrawal";
+import Root from "../components/admin/Root";
+
+
+
+
+
+
+// Countries
+import CountryIndex from "../components/layouts/countries/Index";
+import CountryEdit from "../components/layouts/countries/Edit";
+
+
+
+
+
+
+
+
 
 
 
 
 const routes = [
+    {path: '', component: Root, name: 'root',
+
+        beforeEnter: (to, from, next) => {
+
+        let box = document.getElementById('ssr-box');
+        if(box) {
+            box.remove();
+            location.href = "/";
+        }
+
+            if(localStorage.getItem('token') === null) {
+                next({name: 'login'});
+
+            } else next();
+        },
+
+
+    },
     {path: '/', component: Home, name: 'home',
         children: [
 
 
             {path: "users", component: MainContent, name: 'users'},
             {path: "users/:id/edit", component: EditUser, name: 'edit.user'},
+            {path: "user/view/:id", component: UserView, name: 'user.view'},
             {path: "plans", component: AllPlans, name: 'plans'},
-            {path: "plans/:id", component: EditPlan, name: 'edit.plan'},
+            {path: "plans/:id/edit", component: EditPlan, name: 'edit.plan'},
+            {path: "plans/create", component: CreatePlan, name: 'create.plan'},
+
+
+
+            // TASKS
             {path: "tasks", component: AllTasks, name: 'tasks'},
             {path: "tasks/create", component: CreateTask, name: 'create.task'},
-            {path: "plans/create", component: CreatePlan, name: 'create.plan'},
-            {path: "create-user", component: CreateUser, name: 'create.user'},
+            {path: "all-tasks", component: AllTask, name: 'tasks.index'},
+            {path: "tasks/:id/edit", component: TaskEdit, name: 'tasks.edit'},
+
+
+
+
+
+
+            // {path: "create-user", component: CreateUser, name: 'create.user'},
 
 
 
@@ -127,6 +211,16 @@ const routes = [
 
             // TRANSACTIONS
             {path: "transactions", component: TransactionsIndex, name: 'transaction.index'},
+            {path: "transactions-withdrawal", component: TransactionWithdrawal, name: 'transaction.withdrawal'},
+
+
+
+
+
+            // COUNTRIES
+            {path: "countries", component: CountryIndex, name: 'countries.index'},
+            {path: "countries/:id/edit", component: CountryEdit, name: 'countries.edit'},
+
 
 
 
@@ -155,8 +249,33 @@ const routes = [
             //
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         ],
         beforeEnter: (to, from, next) => {
+
+
+            let box = document.getElementById('ssr-box');
+            if(box) {
+                box.remove();
+                location.href = next;
+            }
+
+
+
+
             if(localStorage.getItem('token') === null) {
              next({name: 'login'});
 
@@ -175,6 +294,7 @@ const routes = [
     //
     //
 
+    // {path: '/test', component: TestCom, name: 'test.com'},
 
 
 
@@ -185,3 +305,16 @@ export default routes;
 
 
 
+function removeSsr() {
+
+    let els = document.getElementsByClassName('remove-ssr');
+
+       els = Array.from(els);
+       els.forEach((item, index) => {
+           console.log(item);
+
+           item.remove();
+       });
+
+
+}

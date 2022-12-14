@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Dompdf\Exception;
 use Illuminate\Http\Request;
 use App\User;
 use App\VerifyPassword;
@@ -16,8 +17,13 @@ class UserMailController extends Controller
     public function changPassword(Request $r)
     {
         $errors = [];
+
         if(empty($r->password)) {
             $errors[] = 'password field is required';
+        }
+
+        if(empty($r->email)) {
+            $errors[] = 'Email field is required';
         }
 
 
@@ -108,12 +114,19 @@ class UserMailController extends Controller
     {
 
         $code =  $r->code;
+        $email =  $r->email;
+        $pass = $r->password;
+        if(empty($code)) return json_encode(['errors' => true, 'data' => 'code field is required']);
+        if(empty($email)) return json_encode(['errors' => true, 'email field is required']);
+        if(empty($pass)) return json_encode(['Password field is required']);
 
 
 
         $verify = VerifyPassword::where('code', $code)
-            ->where('user_id', $r->user()->id)
+            ->where('email', $email)
             ->first();
+
+
         if($verify) {
 
             if($verify->verified === 1) {
@@ -129,8 +142,17 @@ class UserMailController extends Controller
 
                 $verify->update(['verified' => 1]);
 
+                $user = User::where('email', $email)
+                    ->first()
+                    ->update(['password' => bcrypt($pass)]);
+                if(!$user)  {
+                    return json_encode(['errors' => true, 'data' => "Something went wrong"]);
 
-                return json_encode(['errors' => false, 'data' => $verify]);
+                }
+
+
+
+                return json_encode(['errors' => false, 'data' => $user]);
 
 
 
@@ -178,6 +200,8 @@ class UserMailController extends Controller
 
     public function reset(Request $r)
     {
+
+
         $email =  $r->email;
         $errors = [];
 
@@ -195,12 +219,20 @@ class UserMailController extends Controller
             $digits = 5;
             $rand = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
 
+
+
+
+
+
+
+
+
 //            $_SESSION['current_code'] = $rand;
 //            $_SESSION['current_email'] = $email;
 
 
 
-            foreach(VerifyPassword::where('user_id', $r->user()->id)->get() as $item) {
+            foreach(VerifyPassword::where('email', $email)->get() as $item) {
 
                 $item->delete();
             }
@@ -208,7 +240,7 @@ class UserMailController extends Controller
 
 
             VerifyPassword::create([
-                'user_id' => $r->user()->id,
+                'email' => $email,
                 'code' => $rand,
                 'verified' => 0,
             ]);
@@ -217,14 +249,22 @@ class UserMailController extends Controller
 
 
 
-            Mail::send("user_mail", ['name' => 'BANG'], function ($msg) {
-
-                $msg->to("hasnain@coderightway.com")
-                    ->subject('Reset password');
-                $msg->from($GLOBALS['email']);
 
 
-            });
+
+
+
+
+
+             Mail::send("user_mail", ['name' => 'Reset'], function ($msg) {
+
+                 $msg->to($GLOBALS['email'])
+                     ->subject('Reset password');
+                 $msg->from("theuser70yz@gmail.com");
+
+
+             });
+
 
 
 

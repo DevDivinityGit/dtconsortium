@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="/admin/template/dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+
     <link rel="stylesheet" href="/css/app.css">
     <style>
 
@@ -51,7 +53,11 @@
 
         <router-view :key="$router.path"></router-view>
 
+
     </div>
+
+
+
 
 
 
@@ -100,9 +106,13 @@
 
 <script src="/js/bootstrap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 <script src="/js/admin/admin_app.js"></script>
 
 <script>
+
+
+
 
 </script>
 

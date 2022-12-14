@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>
+        <h4 style="margin-left: 30px;">
             create new Plan
         </h4>
         <div class="container">
@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <input type="number"  placeholder="Price" class="form-control">
+                        <input   placeholder="Price" class="form-control">
                     </div>
 
 

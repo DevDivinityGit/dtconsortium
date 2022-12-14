@@ -14,27 +14,69 @@ use DB;
 
 class TaskController extends Controller
 {
+    public function getAllTasks()
+    {
+        if(request()->category_id) {
+
+            return new TaskCollection(Task::withCategory()
+            ->where('category_id', request()->category_id)->paginate(request()->limit));
+
+
+
+
+        }
+
+
+
+
+        return new TaskCollection(Task::withCategory()
+          ->paginate(request()->limit));
+
+
+
+
+
+
+    }
 
 
     public function acceptance($id)
     {
-        $task = Task::find($id);
-        $remaining = (int) $task->demand -1;
-
-        $task->update(['remaining' => $remaining]);
-        $userId = request()->user_id;
 
 
-        DB::table('user_task')
-            ->where('user_id', $userId)
-            ->where('task_id', $task->id)
+
+       $stmt = "SELECT * FROM user_task WHERE user_id = :userId AND task_id = :tid AND task_status <> 'inprogress'";
+
+
+       $old = DB::select($stmt, ['userId' => request()->user_id, 'tid' => $id]);
+
+
+       if(count($old) === 0) {
+
+
+           $task = Task::find($id);
+           $remaining = (int)$task->demand - 1;
+
+           $task->update(['remaining' => $remaining]);
+           $userId = request()->user_id;
+
+           $user = \App\User::find($userId);
+           $user->update([
+               'current_balance' => $user->current_balance += $user->plan->task_price,
+           ]);
+
+
+           DB::table('user_task')
+               ->where('user_id', $userId)
+               ->where('task_id', $task->id)
 //            ->whereDay('updated_at', date('d'))
-            ->update(['task_status' => 'Accepted']);
+               ->update(['task_status' => 'Accepted']);
 
 
+           return 200;
 
 
-        return 200;
+       }
 
 
 
@@ -211,9 +253,9 @@ class TaskController extends Controller
 
 
         if(request()->category_id && request()->tasks_status) {
-            if(request()->tasks_status === 'not taken') {
-                request()->tasks_status = null;
-            }
+//            if(request()->tasks_status === 'not taken') {
+//                request()->tasks_status = null;
+//            }
 
 
 
@@ -499,15 +541,16 @@ class TaskController extends Controller
             $i = 1;
             foreach($item->tasks as $task) {
 
-                    if($task->status !== null) {
+//                    if($task->status !== null) {
 
                         $task->userData = $task->users()->find($item->id);
+//                        $task->imagePivot = "image";
                         $i++;
 
                         array_push($arr, $task);
 
 
-                    }
+//                    }
 
 
 
@@ -525,7 +568,12 @@ class TaskController extends Controller
 
         }
 
+//        return AllUser::find(2)->tasks;
+
         $arr = collect($arr);
+
+
+//        return $arr;
 
 
 
@@ -662,7 +710,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return $task;
     }
 
     /**
@@ -683,9 +731,30 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $id)
     {
-        //
+        $t =  Task::find($id);
+           $remain = $request->demand;
+
+
+        $attr = $request->all();
+        $attr['remaining'] = $remain;
+
+
+
+        if($t->update($attr)) {
+            return 200;
+        }
+
+
+        return 500;
+
+
+
+
+
+
+
     }
 
     /**
@@ -696,6 +765,6 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        if($task->update(['isAvailable' => 0])) return 200;
     }
 }

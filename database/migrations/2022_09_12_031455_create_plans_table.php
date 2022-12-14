@@ -17,9 +17,9 @@ class CreatePlansTable extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('limit');
-            $table->unsignedInteger('price');
-            $table->unsignedInteger('task_price');
+            $table->unsignedInteger('limit');
+            $table->decimal('price');
+            $table->decimal('task_price');
             $table->text('description');
             $table->timestamps();
         });

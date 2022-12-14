@@ -7,7 +7,6 @@ const mix = require('laravel-mix');
 
 
 
-
 mix.js('resources/js/admin/admin_app.js', 'public/js/admin');
 
 

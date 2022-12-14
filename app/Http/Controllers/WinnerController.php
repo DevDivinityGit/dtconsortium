@@ -39,7 +39,11 @@ class WinnerController extends Controller
 
             $data = [];
              $data['code'] = $digit;
-             $data['price'] = $min;
+
+
+
+
+             $data['price'] = rand(0, 2000);
 
 
              array_push($results, $data);

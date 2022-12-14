@@ -17,6 +17,9 @@ class CreateUserTaskTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('task_id');
+            $table->string('image');
+//            $table->unsignedInteger('earning');
+            $table->decimal("earning");
             $table->string('task_status')->default('inprogress');
             $table->timestamps();
         });

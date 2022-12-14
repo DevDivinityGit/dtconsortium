@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>
+        <h4 style="margin-left: 30px;">
             Edit Plan
         </h4>
         <div class="container">
@@ -8,27 +8,87 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <input type="text" placeholder="name" :value="_plan.name" class="form-control">
+                        <div class="form-group">
+
+                            <label for="name">Name</label>
+                            <input type="text" id="name" :value="_plan.name" class="form-control">
+
+                        </div>
+
+
+
+
+
                     </div>
                     <div class="col-sm-6">
-                        <input type="number" placeholder="Limit" :value="_plan.limit"  class="form-control">
+                        <div class="form-group">
+                            <label for="limit">Task Limit</label>
+
+
+                            <input type="number"  id="limit" :value="_plan.limit"  class="form-control">
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
                     </div>
 
                     <div class="col-sm-6">
-                        <input type="text"  placeholder="Price" :value="_plan.price"  class="form-control">
+                        <div class="form-group">
+                            <label for="price">Price</label>
+
+
+
+                            <input type="text"  id="price" :value="_plan.price"  class="form-control">
+
+                        </div>
+
+
+
+
                     </div>
 
 
 
                     <div class="col-sm-6">
-                        <input type="text"  placeholder="Description" :value="_plan.description"  class="form-control">
+                        <div class="form-group">
+
+                            <label for="desc">Description</label>
+                            <input type="text"  id="desc" :value="_plan.description"  class="form-control">
+
+
+                        </div>
+
+
+
+
+
                     </div>
 
 
 
 
                     <div class="col-sm-6">
-                        <input type="number"  placeholder="Task price" :value="_plan.task_price"  class="form-control">
+                        <div class="form-group">
+                            <label for="task_price">Task Price</label>
+                        <input type="text"  id="task_price" :value="_plan.task_price"  class="form-control">
+
+
+                        </div>
+
+
+
+
+
+
+
                     </div>
 
                     <!--<div class="col-sm-6">-->
@@ -43,7 +103,14 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+
+                        </div>
+
+
+
+
                     </div>
                 </div>
 

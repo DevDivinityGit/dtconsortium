@@ -18,7 +18,8 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('role_id')->default('2');
             $table->unsignedBigInteger('plan_id')->default('1');
             $table->string('image')->default('uploads/images/avatar.jpg');
-            $table->unsignedInteger('current_balance')->default(0);
+//            $table->unsignedInteger('current_balance')->default(0);
+            $table->decimal('current_balance')->default(0.00);
             $table->string('name');
             $table->string('real_name')->nullable();
             $table->string('invitation_code');

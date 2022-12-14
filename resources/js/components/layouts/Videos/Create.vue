@@ -1,12 +1,21 @@
 <template>
     <div>
-        <h4>
+        <h4 style="margin-left: 30px;">
             create Video api links
         </h4>
         <div class="container">
             <form @submit.prevent="sendForm($event)" action="#">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="video_name">Name</label>
+                        <input type="text" v-model="form.url_name" id="video_name"  class="form-control">
+                    </div>
+                </div>
 
                 <div class="row">
+
+
+
                     <div class="col-sm-6">
                         <label for="name">Url</label>
 
@@ -68,6 +77,7 @@
 
 
                 </div>
+                <br>
                 <div class="row">
                     <div class="col-sm-6">
                         <button class="btn btn-primary" type="submit">Create</button>
@@ -87,6 +97,7 @@
             return {
                 form: {
                   name: '',
+                    url_name: '',
                 },
             };
         },
@@ -103,6 +114,7 @@
                     data: this.form,
                 }).
                     then(res => {
+
 
 
 

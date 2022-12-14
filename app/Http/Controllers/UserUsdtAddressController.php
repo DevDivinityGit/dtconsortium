@@ -9,6 +9,9 @@ class UserUsdtAddressController extends Controller
 {
     public function get()
     {
+
+
+
         return json_encode([
            'errors' => false,
            'data' => Address::first(),
